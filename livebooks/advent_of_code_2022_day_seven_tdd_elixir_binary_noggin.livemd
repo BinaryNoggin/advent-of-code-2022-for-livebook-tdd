@@ -1,5 +1,3 @@
-<!-- livebook:{"autosave_interval_s":30} -->
-
 # Advent of Code 2022 day 7 for TDD
 
 ## How to use this livebook
@@ -94,17 +92,29 @@ To begin, find all of the directories with a total size of **at most 100000**, t
 
 Find all of the directories with a total size of at most 100000. **What is the sum of the total sizes of those directories?**
 
-## Part 2
-
-TBD
-
 ```elixir
 defmodule DaySevenPuzzleOne do
-  def solve(input_string) do
-    # Implementation goes here
+  defstruct [:current_path, :size]
+  # implement a constructor
+  def new() do
+    # Implement new
+  end
+
+  # implement reducers here
+  def evaluate_line(command, state) do
+  end
+
+  # implement converter here
+  def to_sum(state) do
+  end
+
+  def solve_one(input_string) do
+    # Implement solve_one
   end
 end
 ```
+
+## Test
 
 ```elixir
 ExUnit.start(auto_run: false)
@@ -138,9 +148,93 @@ defmodule DaySevenPuzzleOneTest do
   7214296 k
   """
 
-  describe "part 1" do
+  test "initialize a data structure that is a convenient accumulator" do
+    expected = %DaySevenPuzzleOne{current_path: [], size: %{}}
+    actual = DaySevenPuzzleOne.new()
+    assert actual == expected
+  end
+
+  describe "evaluate a line of text with reducers" do
+    test "handles change directory command" do
+      struct = DaySevenPuzzleOne.new()
+      line = "$ cd /"
+      expected = %DaySevenPuzzleOne{current_path: ["/"], size: %{}}
+      actual = DaySevenPuzzleOne.evaluate_line(line, struct)
+      assert actual == expected
+    end
+
+    test "handles going back a directory" do
+      struct = %DaySevenPuzzleOne{current_path: ["a", "/"], size: %{["/"] => 0}}
+      line = "$ cd .."
+      expected = %DaySevenPuzzleOne{current_path: ["/"], size: %{["/"] => 0}}
+      actual = DaySevenPuzzleOne.evaluate_line(line, struct)
+      assert actual == expected
+    end
+
+    test "add file size to all directories" do
+      struct = %DaySevenPuzzleOne{current_path: ["a", "/"], size: %{}}
+      line = "14848514 b.txt"
+
+      expected = %DaySevenPuzzleOne{
+        current_path: ["a", "/"],
+        size: %{["/"] => 14_848_514, ["a", "/"] => 14_848_514}
+      }
+
+      actual = DaySevenPuzzleOne.evaluate_line(line, struct)
+      assert actual == expected
+    end
+
+    test "lines that do not effect state are ignored gracefully" do
+      struct = %DaySevenPuzzleOne{
+        current_path: ["d", "c", "b", "a", "/"],
+        size: %{}
+      }
+
+      lines = ["$ ls", "dir holyrustedmetalbatman"]
+      expected = struct
+
+      Enum.each(lines, fn line ->
+        assert DaySevenPuzzleOne.evaluate_line(line, struct) == expected
+      end)
+    end
+  end
+
+  describe "converts struct to number" do
+    test "returns the sum of all directory sizes less than or equal to 100_000" do
+      struct = %DaySevenPuzzleOne{
+        current_path: [],
+        size: %{["d", "/"] => 100_000, ["c", "/"] => 1, ["/"] => 100_001}
+      }
+
+      assert DaySevenPuzzleOne.to_sum(struct) == 100_001
+    end
+  end
+
+  describe "solve part 1" do
     test "find the sum of all of the directories with a total size of at most 100_000" do
-      assert DaySevenPuzzleOne.solve(@input_string) == 95437
+      assert DaySevenPuzzleOne.solve_one(@input_string) == 95_437
+    end
+
+    test "handles nested directories" do
+      # - /.          - 100
+      # -- a (dir)    - 50
+      # --- b.txt 50
+      # -- b (dir)    - 50
+      # --- a (dir)   - 50
+      # ---- c.txt 50
+
+      input = """
+      $ cd /
+      $ cd a
+      $ ls
+      50 b.txt
+      $ cd ..
+      $ cd b
+      $ cd a
+      50 c.txt
+      """
+
+      assert DaySevenPuzzleOne.solve_one(input) == 250
     end
   end
 end
