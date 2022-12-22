@@ -44,3 +44,7 @@ Happy Coding!
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https://github.com/BinaryNoggin/advent-of-code-2022-for-livebook-tdd/blob/main/livebooks/advent_of_code_2022_day_18_tdd_elixir_binary_noggin.livemd)
 ## Day Nineteen
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https://github.com/BinaryNoggin/advent-of-code-2022-for-livebook-tdd/blob/main/livebooks/advent_of_code_2022_day_19_tdd_elixir_binary_noggin.livemd)
+## Day Twenty
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https://github.com/BinaryNoggin/advent-of-code-2022-for-livebook-tdd/blob/main/livebooks/advent_of_code_2022_day_20_tdd_elixir_binary_noggin.livemd)## Day Twenty
+## Day Twenty One
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https://github.com/BinaryNoggin/advent-of-code-2022-for-livebook-tdd/blob/main/livebooks/advent_of_code_2022_day_21_tdd_elixir_binary_noggin.livemd)
